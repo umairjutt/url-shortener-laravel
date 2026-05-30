@@ -1,0 +1,52 @@
+services:
+  app:
+    build: .
+    container_name: shortener-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - APP_ENV=local
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  mysql:
+    image: mysql:8
+    container_name: shortener-mysql
+    environment:
+      MYSQL_DATABASE: shortener
+      MYSQL_USER: shortener
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: rootsecret
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootsecret"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: shortener-redis
+    ports:
+      - "6379:6379"
+
+  queue:
+    build: .
+    container_name: shortener-queue
+    command: php artisan queue:work redis --tries=3 --timeout=60
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - app
+      - redis
+
+volumes:
+  mysql_data:
