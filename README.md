@@ -1,8 +1,12 @@
 # URL Shortener — Laravel 11 + Redis
 
-A production-ready URL shortener API with click analytics, QR codes, custom aliases, and link expiration. Built to demonstrate Redis-backed caching, hit-counting, and clean Laravel architecture.
+[CI results](https://github.com/umairjutt/url-shortener-laravel/actions) · [Engineering guide](PORTFOLIO.md)
 
-[Live demo (TODO)](https://example.com) · [API docs](#api-reference) · [Architecture](#architecture)
+> **Status:** Development API for Redis-backed redirects. Cached expiration, alias races and deployment assumptions require further validation.
+
+A Laravel URL shortener API with click analytics, QR codes, custom aliases, and link expiration. Built to demonstrate Redis-backed caching, hit-counting, and clean Laravel architecture.
+
+[API docs](#api-reference) · [Architecture](#architecture)
 
 ## What this demonstrates
 
@@ -13,7 +17,7 @@ A production-ready URL shortener API with click analytics, QR codes, custom alia
 - **QR code generation** (`simple-qrcode`) cached on disk
 - **Rate limiting** per IP (5 short-link creates / minute) using Laravel's RateLimiter
 - **Test coverage** with Pest (feature + unit)
-- **Dockerized** — `docker compose up` and you're running
+- **Local containers** — follow the complete quick-start sequence below
 
 ## Architecture
 
@@ -42,7 +46,7 @@ flowchart LR
 ## Quick start
 
 ```bash
-git clone <repo>
+git clone https://github.com/umairjutt/url-shortener-laravel.git
 cd url-shortener-laravel
 cp .env.example .env
 docker compose up -d
@@ -89,7 +93,7 @@ docker compose exec app ./vendor/bin/pest
 
 ## Deploy
 
-See [DEPLOY.md](DEPLOY.md) for Railway/Render instructions.
+The Compose configuration is for local development; production deployment documentation remains to be completed.
 
 <!-- ownership:author -->
 ---
@@ -98,4 +102,4 @@ See [DEPLOY.md](DEPLOY.md) for Railway/Render instructions.
 
 **Umair** &mdash; [@umairjutt](https://github.com/umairjutt)
 
-Designed, built and maintained by me. Licensed under the [MIT License](LICENSE).
+Maintained by [Umair Jutt](https://github.com/umairjutt). See [LICENSE](LICENSE) for repository licensing.
